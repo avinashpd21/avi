@@ -1,0 +1,139 @@
+{
+  "entities": {
+    "ContactInquiry": {
+      "title": "Contact Inquiry",
+      "description": "Client inquiry submitted via the contact form or quote request",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100,
+          "description": "Full name of the potential client"
+        },
+        "phone": {
+          "type": "string",
+          "minLength": 7,
+          "maxLength": 20,
+          "description": "Contact phone number or WhatsApp number"
+        },
+        "email": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Contact email address"
+        },
+        "service": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100,
+          "description": "The required web development service"
+        },
+        "details": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 2000,
+          "description": "Details regarding the client project"
+        },
+        "budget": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Optional selected budget or package"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["new", "contacted", "in_progress", "completed", "archived"],
+          "description": "Current status of the client lead"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when inquiry was received"
+        },
+        "userId": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Optional Firebase UID if the user was signed in"
+        }
+      },
+      "required": ["name", "phone", "service", "details", "status", "createdAt"]
+    },
+    "Admin": {
+      "title": "Admin Record",
+      "description": "Trusted administrative record for portfolio owner",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Admin email address"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["admin"],
+          "description": "Administrative role"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Creation timestamp"
+        }
+      },
+      "required": ["email", "role"]
+    },
+    "Review": {
+      "title": "Client Review / Testimonial",
+      "description": "Client review or testimonial item",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100,
+          "description": "Client or reviewer name"
+        },
+        "role": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Client profession or business name"
+        },
+        "content": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 1000,
+          "description": "Review text"
+        },
+        "rating": {
+          "type": "number",
+          "description": "Rating out of 5"
+        },
+        "isSample": {
+          "type": "boolean",
+          "description": "Whether this is marked as a sample/placeholder"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Creation timestamp"
+        }
+      },
+      "required": ["name", "content", "rating"]
+    }
+  },
+  "firestore": {
+    "/inquiries/{inquiryId}": {
+      "schema": {
+        "$ref": "#/entities/ContactInquiry"
+      },
+      "description": "Client contact submissions and project quote requests"
+    },
+    "/admins/{adminId}": {
+      "schema": {
+        "$ref": "#/entities/Admin"
+      },
+      "description": "Verified system administrators"
+    },
+    "/reviews/{reviewId}": {
+      "schema": {
+        "$ref": "#/entities/Review"
+      },
+      "description": "Client testimonials and reviews"
+    }
+  }
+}
